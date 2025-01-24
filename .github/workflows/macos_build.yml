@@ -37,7 +37,6 @@ jobs:
         python --version
         pip --version
         python -m build --version
-        python -m distlib --version
 
         # Python info
         echo "Python info:"
