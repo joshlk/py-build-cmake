@@ -47,9 +47,15 @@ jobs:
         import packaging.tags
         print(list(packaging.tags.mac_platforms()))
         import platform
-        print(platform.mac_ver())
-        import pip._internal.utils.compatibility_tags
-        print(pip._internal.utils.compatibility_tags.get_supported())"
+        print(platform.mac_ver())"
+
+        # Save platform compatibility_tags to a file
+        python -c "import pip._internal.utils.compatibility_tags; print(pip._internal.utils.compatibility_tags.get_supported())" > pip_platform_tags.txt
+    - name: Upload pip_platform_tags.txt
+      uses: actions/upload-artifact@v4
+      with:
+        name: pip_platform_tags.txt
+        path: pip_platform_tags.txt
     - name: Build project and try to install
       run: |
         # Activate pyenv
