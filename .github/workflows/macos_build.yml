@@ -21,7 +21,7 @@ jobs:
         eval "$(pyenv init - bash)"
         pyenv install 3.12.5
         pyenv global 3.12.5
-        pip install --upgrade pip build
+        pip install --upgrade pip build distlib
     - name: Get System Details
       run: |
         set -x
@@ -37,6 +37,7 @@ jobs:
         python --version
         pip --version
         python -m build --version
+        python -m distlib --version
 
         # Python info
         echo "Python info:"
