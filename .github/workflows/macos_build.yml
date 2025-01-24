@@ -1,0 +1,34 @@
+name: macos_build
+on:
+  push:
+    branches:    
+      - main
+  workflow_dispatch:
+jobs:
+  macos_build:
+    runs-on: macos-15
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+    - name: Install PyEnv and Python
+      run: |
+        curl -fsSL https://pyenv.run | bash
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init - bash)"
+        pyenv install 3.12.5
+        pyenv global 3.12.5
+    - name: Build project and try to install
+      run: |
+        export PYENV_ROOT="$HOME/.pyenv"
+        export PATH="$PYENV_ROOT/bin:$PATH"
+        eval "$(pyenv init - bash)"
+        pyenv global 3.12.5
+        pip install --upgrade pip build
+        cd examples/nanobind-project
+        python -m build
+        echo "Build name"
+        echo $(ls -l dist/*.whl)
+        python -m pip install dist/*.whl
